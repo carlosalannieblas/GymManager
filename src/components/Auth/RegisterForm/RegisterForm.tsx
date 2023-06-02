@@ -1,13 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, Icon,Button, ButtonProps } from 'semantic-ui-react'
 import "./RegisterForm.scss"
 import {useFormik} from "formik"
 import * as Yup from "yup"
+import {Auth} from "../../../api"
 
+const auth=new Auth();
 
 export  function RegisterForm(props: { openAuthOptions: React.MouseEventHandler<HTMLParagraphElement> | undefined; openLogin: React.MouseEventHandler<HTMLSpanElement> | undefined }) {
-  const passwordRules= /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
-  //min 5 characters, 1 upoercaseLetter, 1 lowercase letter, 1 numericdigit
+  const [showPassord, setShowPassord] = useState(false);
+  const onShowHiddenPassword=()=>setShowPassord((prevState)=>!prevState)
+  
+  const passwordRules= /^(?=.*\d)(?=.*[A-Z]).{5,}$/;
+  const emailRules= /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  //min 5 characters, 1 upoercaseLetter, 1 lowercase letter, 1 numeric digit
   const formik = useFormik({
         initialValues: {
            email: '',
@@ -15,105 +21,107 @@ export  function RegisterForm(props: { openAuthOptions: React.MouseEventHandler<
            confirmPassword:'',
            username: '',
         },
-        validationSchema: Yup.object({
-            email: Yup.string().email("itsAnError").required("itsAnError"),
+        validationSchema: Yup.object().shape({
+            email: Yup.string().matches(emailRules,"Correo no valido").required("El correo es requerido"),
             password: Yup
             .string()
-            .min(8, "itsAnError")
-            .matches(passwordRules,"itsAnError")
-            .required("itsAnError"),
+            .min(5, "Al menos 5 caracteres")  
+            .matches(passwordRules,"5 caracteres, 1 mayus y 1 numero")
+            .required("La contraseña es requerida"),
             confirmPassword: Yup
             .string()
-            .oneOf([Yup.ref("password"),undefined], "itsAnError")
-            .required("itsAnError")
+            .min(5, "Al menos 5 caracteres")
+            .oneOf([Yup.ref("password"),undefined], "Las cotraseñas deben coincidir")
+            .required("Confirmar contraseña requerida")
             ,
-            username: Yup.string().min(5, "itsAnError").required("itsAnError"),
+            username: Yup.string().min(5, "Al menos 5 caracteres").required("Nombre de usuario requerido"),
           }),
-        validateOnChange: false,
-         onSubmit: values => {
-           //console.log("Registro OK")
-           //console.log(values);
-           //console.log(formik.errors.email)
+        validateOnChange: true,
+         onSubmit: async (formValue) => {
+          try {
+            await auth.register(formValue.email, formValue.password)
+          } catch (error) {
+            console.error(error)
+          }
          },
        });
-
-       console.log(formik.errors)
-
-let isError = formik.errors.email=="ERR0R"?true:false;
-
-
-//boolean handler for input error
-    let handleError = (x: string | undefined) =>{
-      return x=="itsAnError"?true:false;
-    }
-
   return (
     <div className="register-form">
-<h1>Toma el mando con una cuenta nueva de Gym Rat</h1>
+<h1>Toma el mando con una cuenta nueva</h1>
 <Form onSubmit={formik.handleSubmit}>
+{ formik.errors.email && formik.touched.email &&(
+  <div className='error'>{formik.errors.email}</div>
+)}
   <Form.Input
    name="email" 
    type="text" 
    placeholder="Correo electronico" 
    icon="mail outline"
    onChange={formik.handleChange}
+   onBlur={formik.handleBlur}
    value={formik.values.email}
-   error={isError}
+   className={formik.errors.email&& formik.touched.email?"error":""}
    />
-  <Form.Input 
+{ formik.errors.password && formik.touched.password &&(
+  <div className='error'>{formik.errors.password}</div>
+)}
+  <Form.Input
   name="password"
-  type="password" 
+  type={showPassord?"text":"password"}
   placeholder="Contraseña" 
   icon={
   <Icon 
-  name="eye" 
+  name={showPassord?"eye slash":"eye"}
   link 
-  onClick={() => console.log("Show Password") 
-} />} 
+  onClick={onShowHiddenPassword}
+   />} 
   onChange={formik.handleChange}
+  onBlur={formik.handleBlur}
   value={formik.values.password}
-  error={handleError(formik.errors.password)}
+  className={formik.errors.password&& formik.touched.password?"error":""}
   />
+  {formik.touched.confirmPassword && formik.errors.confirmPassword &&(
+  <div className='error'>{formik.errors.confirmPassword}</div>
+)}
     <Form.Input 
   name="confirmPassword"
-  type="password" 
+  type={showPassord?"text":"password"}
   placeholder="Confirmar contraseña" 
   icon={
   <Icon 
-  name="eye" 
+  name={showPassord?"eye slash":"eye"}
   link 
-  onClick={() => console.log("Show Password") 
-} />} 
+  onClick={onShowHiddenPassword}
+   />} 
   onChange={formik.handleChange}
+  onBlur={formik.handleBlur}
   value={formik.values.confirmPassword}
-  error={handleError(formik.errors.confirmPassword)}
+  error={formik.errors.confirmPassword&& formik.touched.confirmPassword?true:false}
   />
+    {formik.touched.username && formik.errors.username &&(
+  <div className='error'>{formik.errors.username}</div>
+)}
   <Form.Input 
   name="username"
   type="text"
   placeholder="Nombre" 
   icon="user circle outline"
   onChange={formik.handleChange}
+  onBlur={formik.handleBlur}
   value={formik.values.username}
-  error={handleError(formik.errors.username)}
+  error={formik.errors.username&& formik.touched.username?true:false}
   />
-
-
-
   <Form.Button 
   type="submit"   
   primary 
-  fluid>
+  fluid loading={formik.isSubmitting}>
     Continuar
   </Form.Button>
 </Form>
-
 <div className="register-form__options">
   <p onClick={props.openAuthOptions}>Volver</p>
   <p>¿Ya tienes una cuenta? <span onClick={props.openLogin}>Iniciar sesión</span></p>
-
 </div>
     </div>
   )
 }
-
