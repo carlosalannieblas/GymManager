@@ -8,7 +8,9 @@ const auth = new Auth();
 
 export function LoginForm(props: { openAuthOptions: React.MouseEventHandler<HTMLParagraphElement> | undefined; openRegister: React.MouseEventHandler<HTMLSpanElement> | undefined; }) {
 const [showPassord, setShowPassord] = useState(false);
+
 const onShowHiddenPassword = ()=>setShowPassord((prevState)=>!prevState)
+
 const passwordRules= /^(?=.*\d)(?=.*[A-Z]).{5,}$/;
 const emailRules= /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 //min 5 characters, 1 upoercaseLetter, 1 lowercase letter, 1 numeric digit
