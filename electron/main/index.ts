@@ -54,6 +54,9 @@ async function createWindow() {
       contextIsolation: false,
     },
   })
+  //Para que se maximize la pantalla ~Carlos Nieblas
+  win.maximize();
+  win.show();
 
   if (url) { // electron-vite-vue#298
     win.loadURL(url)
