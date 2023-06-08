@@ -1,0 +1,27 @@
+@import "../../../scss/index.scss";
+
+.footer{
+display: flex;
+align-items: center;
+justify-content: space-between;
+height: 100%;
+margin: 0px 20px;
+
+  &__gym{
+    display: flex;
+    align-items: center;
+    width: 1%;
+  }
+  &__left{
+    display: flex;
+    align-items: center;
+    width: 20%;
+  }
+
+  .ui.image{
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+    
+}

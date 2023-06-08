@@ -1,0 +1,36 @@
+@import "../../../scss/index.scss";
+
+.top-bar{
+display: flex;
+align-items: center;
+justify-content: space-between;
+width: 100%;
+height: 100%;
+padding: 0 5px;
+ 
+&__right{
+    margin-top: 20px!important;
+    padding: 20px !important;
+    text-align: center !important;
+      }
+a{
+    font-size: 20px !important;
+    display: inline-block !important;
+    margin:10px;
+    vertical-align: middle !important;
+}
+i{
+    font-size: 22px !important;
+    display: inline-block !important;
+    margin:10px;
+    vertical-align: middle !important;
+}
+    &__back{
+    font-size: 25px !important;
+    .ui.image.avatar{
+        margin-right:10px;
+        width: 1em;
+        height: 1em;
+    }
+}
+}

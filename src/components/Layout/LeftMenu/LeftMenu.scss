@@ -1,0 +1,32 @@
+@import "../../../scss/index.scss";
+
+.left-menu{
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+
+    .ui.menu.vertical.secondary.fluid{
+        margin: 0;
+
+        .item{
+            border-radius: 0 !important;
+            border-left: 4px solid transparent;
+            color: $font-grey !important;
+        }
+
+        i{
+            color: $font-grey !important;
+        }
+
+        .active{
+            border-color: blue;
+            color: white !important;
+            i{
+                color: white !important;
+            }
+        }
+
+    }
+}
