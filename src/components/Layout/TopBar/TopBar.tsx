@@ -18,7 +18,9 @@ const displayName= userData?.displayName || "Mi cuenta";
 const avatar = userData?.photoURL || noImage;
     return(
         <div className="top-bar" >
+         
             <Icon name="angle left" className="top-bar__back" link onClick={()=> navigation(-1)} />
+            <h1>Bongos 300</h1>
             <div className="top-bar__right">
             <Link to="/profile">
                <Image src={avatar} avatar />

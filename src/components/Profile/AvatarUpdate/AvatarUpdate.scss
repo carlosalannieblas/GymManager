@@ -1,0 +1,18 @@
+@import "../../../scss/index.scss";
+
+.avatar-update{
+    border: 2px solid #9a9a9a;
+    border-style: inset;
+    border-radius: 100px;
+    padding: 10px;
+
+    &:hover{
+        cursor:pointer;
+        opacity:0.9;
+    }
+
+    .ui.image{
+        width: 200px;
+        border-radius: 100px;
+    }
+}

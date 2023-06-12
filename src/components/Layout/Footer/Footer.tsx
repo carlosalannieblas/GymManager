@@ -1,16 +1,16 @@
 import React from "react";
 import "./Footer.scss";
 import { Image , Button} from "semantic-ui-react";
-import {Bongos300CarlosNieblas} from "../../../assets";
+import {noImage} from "../../../assets";
 export function Footer(){
     return(
         <div className="footer">
               <div className="footer__gym">
         {/*Gym im checking, gym where he signed up */}
-       <span>Bongos 300</span>
+       <span>Bongos Paris</span>
           </div>
           <div className="footer__persona">
-          <Image src={Bongos300CarlosNieblas} />
+          <Image src={noImage} />
           </div>
           <div className="footer__nombre">
          {/*client or staff name */}
@@ -18,7 +18,7 @@ export function Footer(){
           </div>
           <div className="footer__center">
                    {/*gyms is allowed or job position */}
-        <p>Bongos Paris, Bongos 300, Bongos Jalisco</p>
+        <p>Membresia VIP</p>
           </div>
           <div className="footer__dias">
                  {/*days left or tipo de contrato*/}
