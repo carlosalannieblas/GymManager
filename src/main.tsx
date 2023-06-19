@@ -1,11 +1,11 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import "./scss/global.scss"
-import "./firebase.js"
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./scss/global.scss";
+import "./utils/firebase.js";
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <App />
-)
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <App />
+);
 
-postMessage({ payload: 'removeLoading' }, '*')
+postMessage({ payload: "removeLoading" }, "*");
